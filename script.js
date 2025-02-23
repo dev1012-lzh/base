@@ -11,6 +11,7 @@ if (localStorage.getItem('rememberMe')) {
     if (localStorage.getItem('rememberMe') === 'true') {
         pass();
         document.title = 'Welcome!';
+
     } else {
 
         localStorage.setItem('rememberMe', 'false');
@@ -78,15 +79,15 @@ loginFormButton.addEventListener('click', () => {
     } else {
         localStorage.setItem('userId', "User not found");
         localStorage.setItem('userName', "User not found");
-        showDialog('Error','<b>User not found</b><br>Did you type carefully?','2');
+        showDialog('Error', '<b>User not found</b><br>Did you type carefully?', '2');
         console.warn('401 Unauthorized - User not found');
     }
-    
+
 });
 
 
-document.addEventListener('keypress',(event=>{
-    if(event.key === 'Enter'){
+document.addEventListener('keypress', (event => {
+    if (event.key === 'Enter') {
         loginFormButton.click();
     }
 }
@@ -164,6 +165,7 @@ function onload() {
 onload();
 
 function pass() {
+
     greetingSpan2.innerText = `Welcome, ${localStorage.getItem('userId')}`;
     document.querySelectorAll('.loginEl').forEach(function (element) {
         element.style.display = 'none';
@@ -182,6 +184,8 @@ function pass() {
         }, 500)
         loader.classList.remove('loader');
     }, 1000);
+    scrollToTop();
+    disableScrolling();
 }
 
 document.querySelectorAll('[id*="cookmj"]').forEach(function (element) {
@@ -565,3 +569,26 @@ function show(type) {
         }
     }
 }
+
+// Scroll to top function
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Disable scrolling function
+function disableScrolling() {
+    document.body.style.overflow = 'hidden';
+}
+
+// Enable scrolling function
+function enableScrolling() {
+    document.body.style.overflow = 'auto';
+}
+
+
+// Prevent pinch-zoom on the entire page
+document.addEventListener('touchmove', function(event) {
+    if (event.scale !== 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
