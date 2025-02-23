@@ -2,15 +2,22 @@ const greetingSpan = document.getElementById('greeting');
 const greetingSpan2 = document.getElementById('greeting2');
 const loginFormInputText = document.getElementById('usernameForm');
 const loginFormButton = document.getElementById('loginBtn');
+let passed = 0;
 const toggleMask = () => {
     document.querySelector('.mask').classList.toggle('maskViewable');
 };
 
 
+if (!localStorage.getItem('firstVisit')) {
+    localStorage.setItem('firstVisit', 'true');
+    window.location.reload();
+}
+
 if (localStorage.getItem('rememberMe')) {
     if (localStorage.getItem('rememberMe') === 'true') {
         pass();
         document.title = 'Welcome!';
+
 
     } else {
 
@@ -53,7 +60,7 @@ function logOut() {
     window.location.reload();
 }
 
-
+/*Users */
 
 const users = {
     "wzh": "Wong Ze Han",
@@ -165,8 +172,8 @@ function onload() {
 onload();
 
 function pass() {
-
-    greetingSpan2.innerText = `Welcome, ${localStorage.getItem('userId')}`;
+    passed = 1;
+    greetingSpan2.innerText = `Welcome, ${localStorage.getItem('userName')}`;
     document.querySelectorAll('.loginEl').forEach(function (element) {
         element.style.display = 'none';
     });
@@ -545,9 +552,11 @@ horizontalScrollable.addEventListener('touchmove', (e) => {
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'M' || event.key === "m") {
-        toggleMask();
-        document.getElementById('nav').classList.toggle('navActive');
-        document.getElementById('nav').classList.toggle('navNotActive');
+        if (passed===1) {
+            toggleMask();
+            document.getElementById('nav').classList.toggle('navActive');
+            document.getElementById('nav').classList.toggle('navNotActive');
+        }
     }
 })
 
@@ -586,9 +595,3 @@ function enableScrolling() {
 }
 
 
-// Prevent pinch-zoom on the entire page
-document.addEventListener('touchmove', function(event) {
-    if (event.scale !== 1) {
-        event.preventDefault();
-    }
-}, { passive: false });
